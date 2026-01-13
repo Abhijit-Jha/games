@@ -40,43 +40,75 @@ export default function LeaderboardPage() {
   }, [activeTab]);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Leaderboard</h1>
-        <p className="text-muted-foreground">
-          Top players across all games
+    <div className="max-w-5xl mx-auto px-4 py-12 min-h-[calc(100vh-4rem)]">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-12 text-center"
+      >
+        <div className="inline-flex items-center gap-3 mb-4">
+          <motion.span
+            className="text-5xl"
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            🏆
+          </motion.span>
+          <h1 className="text-5xl font-black uppercase tracking-tight">
+            <span className="text-neon-green">Leader</span>
+            <span className="text-neon-pink">board</span>
+          </h1>
+          <motion.span
+            className="text-5xl"
+            animate={{ rotate: [0, -10, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            🏆
+          </motion.span>
+        </div>
+        <p className="text-muted-foreground text-lg">
+          Top players competing for glory
         </p>
-      </div>
+      </motion.div>
 
-      <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
-        <button
+      <div className="flex gap-2 mb-8 overflow-x-auto pb-2 justify-center flex-wrap">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => setActiveTab("global")}
-          className={`px-4 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-colors ${
+          className={`px-6 py-3 text-sm font-black uppercase tracking-wider rounded-xl whitespace-nowrap transition-all border-2 ${
             activeTab === "global"
-              ? "bg-primary text-primary-foreground"
-              : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              ? "bg-primary text-primary-foreground border-primary shadow-[0_0_20px_var(--primary-glow)]"
+              : "bg-card text-muted-foreground border-border-bright hover:border-primary/50 hover:text-foreground"
           }`}
         >
-          Global
-        </button>
+          🌍 Global
+        </motion.button>
         {GAMES.map((game) => (
-          <button
+          <motion.button
             key={game.id}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => setActiveTab(game.id)}
-            className={`px-4 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-colors ${
+            className={`px-6 py-3 text-sm font-black uppercase tracking-wider rounded-xl whitespace-nowrap transition-all border-2 ${
               activeTab === game.id
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                ? "bg-primary text-primary-foreground border-primary shadow-[0_0_20px_var(--primary-glow)]"
+                : "bg-card text-muted-foreground border-border-bright hover:border-primary/50 hover:text-foreground"
             }`}
           >
             {game.name}
-          </button>
+          </motion.button>
         ))}
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          <motion.div
+            className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            style={{ boxShadow: "0 0 20px var(--primary-glow)" }}
+          />
         </div>
       ) : activeTab === "global" ? (
         <GlobalLeaderboard data={globalData} />
@@ -90,48 +122,63 @@ export default function LeaderboardPage() {
 function GlobalLeaderboard({ data }: { data: AggregatedScore[] }) {
   if (data.length === 0) {
     return (
-      <div className="text-center py-20 text-muted-foreground">
-        No scores yet. Be the first to play!
-      </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="text-center py-20"
+      >
+        <div className="text-6xl mb-4">🎮</div>
+        <p className="text-muted-foreground text-lg uppercase tracking-wider">
+          No scores yet. Be the first to play!
+        </p>
+      </motion.div>
     );
   }
 
   return (
-    <div className="border border-border rounded-lg overflow-hidden">
-      <table className="w-full">
-        <thead>
-          <tr className="bg-secondary">
-            <th className="px-4 py-3 text-left text-sm font-medium">Rank</th>
-            <th className="px-4 py-3 text-left text-sm font-medium">Player</th>
-            <th className="px-4 py-3 text-right text-sm font-medium">Games</th>
-            <th className="px-4 py-3 text-right text-sm font-medium">Total Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((entry, index) => (
-            <motion.tr
-              key={entry.twitterHandle}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.03 }}
-              className="border-t border-border"
-            >
-              <td className="px-4 py-3 font-mono text-sm">
-                {index + 1}
-              </td>
-              <td className="px-4 py-3 font-medium">
-                @{entry.twitterHandle}
-              </td>
-              <td className="px-4 py-3 text-right text-muted-foreground">
-                {entry.gamesPlayed}
-              </td>
-              <td className="px-4 py-3 text-right font-mono font-semibold">
-                {entry.totalScore.toLocaleString()}
-              </td>
-            </motion.tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="border-2 border-border-bright rounded-xl overflow-hidden bg-card">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="bg-background-secondary border-b-2 border-border-bright">
+              <th className="px-6 py-4 text-left text-xs font-black uppercase tracking-wider text-muted-foreground">Rank</th>
+              <th className="px-6 py-4 text-left text-xs font-black uppercase tracking-wider text-muted-foreground">Player</th>
+              <th className="px-6 py-4 text-right text-xs font-black uppercase tracking-wider text-muted-foreground">Games</th>
+              <th className="px-6 py-4 text-right text-xs font-black uppercase tracking-wider text-muted-foreground">Total Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((entry, index) => (
+              <motion.tr
+                key={entry.twitterHandle}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.03 }}
+                className="border-b border-border hover:bg-background-secondary/50 transition-colors group"
+              >
+                <td className="px-6 py-4">
+                  <span className={`text-lg font-black font-mono ${
+                    index === 0 ? "text-neon-yellow" :
+                    index === 1 ? "text-neon-blue" :
+                    index === 2 ? "text-neon-orange" : "text-muted-foreground"
+                  }`}>
+                    {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : index + 1}
+                  </span>
+                </td>
+                <td className="px-6 py-4 font-bold text-foreground group-hover:text-primary transition-colors">
+                  @{entry.twitterHandle}
+                </td>
+                <td className="px-6 py-4 text-right text-muted-foreground">
+                  {entry.gamesPlayed}
+                </td>
+                <td className="px-6 py-4 text-right font-mono font-black text-lg text-primary">
+                  {entry.totalScore.toLocaleString()}
+                </td>
+              </motion.tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -139,44 +186,59 @@ function GlobalLeaderboard({ data }: { data: AggregatedScore[] }) {
 function GameLeaderboard({ data }: { data: Score[] }) {
   if (data.length === 0) {
     return (
-      <div className="text-center py-20 text-muted-foreground">
-        No scores yet. Be the first to play!
-      </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="text-center py-20"
+      >
+        <div className="text-6xl mb-4">🎮</div>
+        <p className="text-muted-foreground text-lg uppercase tracking-wider">
+          No scores yet. Be the first to play!
+        </p>
+      </motion.div>
     );
   }
 
   return (
-    <div className="border border-border rounded-lg overflow-hidden">
-      <table className="w-full">
-        <thead>
-          <tr className="bg-secondary">
-            <th className="px-4 py-3 text-left text-sm font-medium">Rank</th>
-            <th className="px-4 py-3 text-left text-sm font-medium">Player</th>
-            <th className="px-4 py-3 text-right text-sm font-medium">Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((entry, index) => (
-            <motion.tr
-              key={`${entry.twitterHandle}-${index}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.03 }}
-              className="border-t border-border"
-            >
-              <td className="px-4 py-3 font-mono text-sm">
-                {index + 1}
-              </td>
-              <td className="px-4 py-3 font-medium">
-                @{entry.twitterHandle}
-              </td>
-              <td className="px-4 py-3 text-right font-mono font-semibold">
-                {entry.score.toLocaleString()}
-              </td>
-            </motion.tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="border-2 border-border-bright rounded-xl overflow-hidden bg-card">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="bg-background-secondary border-b-2 border-border-bright">
+              <th className="px-6 py-4 text-left text-xs font-black uppercase tracking-wider text-muted-foreground">Rank</th>
+              <th className="px-6 py-4 text-left text-xs font-black uppercase tracking-wider text-muted-foreground">Player</th>
+              <th className="px-6 py-4 text-right text-xs font-black uppercase tracking-wider text-muted-foreground">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((entry, index) => (
+              <motion.tr
+                key={`${entry.twitterHandle}-${index}`}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.03 }}
+                className="border-b border-border hover:bg-background-secondary/50 transition-colors group"
+              >
+                <td className="px-6 py-4">
+                  <span className={`text-lg font-black font-mono ${
+                    index === 0 ? "text-neon-yellow" :
+                    index === 1 ? "text-neon-blue" :
+                    index === 2 ? "text-neon-orange" : "text-muted-foreground"
+                  }`}>
+                    {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : index + 1}
+                  </span>
+                </td>
+                <td className="px-6 py-4 font-bold text-foreground group-hover:text-primary transition-colors">
+                  @{entry.twitterHandle}
+                </td>
+                <td className="px-6 py-4 text-right font-mono font-black text-lg text-primary">
+                  {entry.score.toLocaleString()}
+                </td>
+              </motion.tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

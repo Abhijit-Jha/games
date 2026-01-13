@@ -90,67 +90,118 @@ export function GameWrapper({ gameId, title, children }: GameWrapperProps) {
   }, []);
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] flex flex-col">
-      <div className="border-b border-border bg-card">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div className="min-h-[calc(100vh-4rem)] flex flex-col">
+      <div className="border-b-2 border-border-bright bg-card/90 backdrop-blur-md sticky top-16 z-40">
+        <div className="max-w-4xl mx-auto px-4 py-5 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold">{title}</h1>
+            <h1 className="text-2xl font-black uppercase tracking-tight text-neon-green">{title}</h1>
             {isPlaying && (
-              <p className="text-sm text-muted-foreground font-mono">
-                Score: {score.toLocaleString()}
-              </p>
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="mt-2 flex items-center gap-3"
+              >
+                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Score</span>
+                <motion.span
+                  key={score}
+                  initial={{ scale: 1.2, color: "var(--neon-green)" }}
+                  animate={{ scale: 1, color: "var(--foreground)" }}
+                  className="text-2xl font-black font-mono"
+                >
+                  {score.toLocaleString()}
+                </motion.span>
+              </motion.div>
             )}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {isPlaying && !finalScore && (
               <Button
-                variant="secondary"
+                variant="ghost"
                 size="sm"
                 onClick={() => setIsPaused((prev) => !prev)}
               >
-                {isPaused ? "Resume" : "Pause"}
+                {isPaused ? "▶ Resume" : "⏸ Pause"}
               </Button>
             )}
             {!isPlaying && !finalScore && (
-              <Button onClick={handleStart}>Start Game</Button>
+              <Button onClick={handleStart} size="md">▶ Start Game</Button>
             )}
           </div>
         </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-4">
+      <div className="flex-1 flex items-center justify-center p-4 relative">
         {!isPlaying && !finalScore ? (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center"
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="text-center relative"
           >
-            <h2 className="text-2xl font-semibold mb-4">{title}</h2>
-            <p className="text-muted-foreground mb-6">Press Start to begin</p>
-            <Button size="lg" onClick={handleStart}>
-              Start Game
-            </Button>
+            <div className="absolute inset-0 blur-3xl bg-primary/10 rounded-full" />
+            <div className="relative bg-card border-2 border-border-bright rounded-2xl p-12 max-w-md">
+              <motion.div
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="text-6xl mb-6"
+              >
+                🎮
+              </motion.div>
+              <h2 className="text-3xl font-black mb-4 uppercase">{title}</h2>
+              <p className="text-muted-foreground mb-8 text-lg">Ready to compete?</p>
+              <Button size="lg" onClick={handleStart}>
+                ▶ Start Game
+              </Button>
+              <p className="text-xs text-muted-foreground mt-6 uppercase tracking-wider">
+                Press ESC to pause during game
+              </p>
+            </div>
           </motion.div>
         ) : finalScore !== null ? (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center"
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="text-center relative"
           >
-            <h2 className="text-2xl font-semibold mb-2">Game Over</h2>
-            <p className="text-4xl font-mono font-bold mb-6">
-              {finalScore.toLocaleString()}
-            </p>
-            {isSubmitting && (
-              <p className="text-sm text-muted-foreground mb-4">
-                Submitting score...
-              </p>
-            )}
-            <div className="flex gap-3 justify-center">
-              <Button onClick={handleStart}>Play Again</Button>
-              <Button variant="secondary" onClick={() => window.location.href = "/leaderboard"}>
-                Leaderboard
-              </Button>
+            <div className="absolute inset-0 blur-3xl bg-destructive/20 rounded-full" />
+            <div className="relative bg-card border-2 border-destructive rounded-2xl p-12 max-w-md">
+              <motion.div
+                initial={{ rotate: 0 }}
+                animate={{ rotate: [0, -10, 10, -10, 10, 0] }}
+                transition={{ duration: 0.5 }}
+                className="text-6xl mb-6"
+              >
+                💀
+              </motion.div>
+              <h2 className="text-3xl font-black mb-4 uppercase text-destructive">Game Over</h2>
+              <div className="mb-8">
+                <p className="text-sm text-muted-foreground uppercase tracking-wider mb-2">Final Score</p>
+                <motion.p
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+                  className="text-6xl font-black font-mono text-neon-green"
+                  style={{ textShadow: "0 0 20px var(--primary-glow)" }}
+                >
+                  {finalScore.toLocaleString()}
+                </motion.p>
+              </div>
+              {isSubmitting && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-sm text-muted-foreground mb-4 uppercase tracking-wider"
+                >
+                  📡 Submitting score...
+                </motion.p>
+              )}
+              <div className="flex flex-col gap-3 justify-center">
+                <Button onClick={handleStart} size="lg">🔄 Play Again</Button>
+                <Button variant="secondary" size="lg" onClick={() => window.location.href = "/leaderboard"}>
+                  🏆 View Leaderboard
+                </Button>
+              </div>
             </div>
           </motion.div>
         ) : (
@@ -159,12 +210,22 @@ export function GameWrapper({ gameId, title, children }: GameWrapperProps) {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="absolute inset-0 z-40 flex items-center justify-center bg-background/80 backdrop-blur-sm"
+                className="absolute inset-0 z-40 flex items-center justify-center bg-background/90 backdrop-blur-md"
               >
-                <div className="text-center">
-                  <h2 className="text-2xl font-semibold mb-4">Paused</h2>
-                  <Button onClick={() => setIsPaused(false)}>Resume</Button>
-                </div>
+                <motion.div
+                  initial={{ scale: 0.9, y: 20 }}
+                  animate={{ scale: 1, y: 0 }}
+                  className="text-center bg-card border-2 border-border-bright rounded-2xl p-12 max-w-sm"
+                >
+                  <div className="text-5xl mb-6">⏸️</div>
+                  <h2 className="text-3xl font-black mb-6 uppercase">Paused</h2>
+                  <div className="space-y-3">
+                    <Button onClick={() => setIsPaused(false)} size="lg">▶ Resume Game</Button>
+                    <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                      Press ESC to resume
+                    </p>
+                  </div>
+                </motion.div>
               </motion.div>
             )}
             {children({
