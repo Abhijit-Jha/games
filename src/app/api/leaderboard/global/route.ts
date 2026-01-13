@@ -36,6 +36,7 @@ export async function GET(request: NextRequest) {
         typing: 0,
         reaction: 0,
         trex: 0,
+        quickmath: 0,
       };
 
       entry.scores.forEach((s: { gameId: GameId; score: number }) => {
