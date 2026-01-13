@@ -76,7 +76,8 @@ function playNoise(duration: number, volume: number = 0.2) {
 }
 
 const SOUNDS = {
-  click: () => playTone(800, 0.05, "square", 0.15),
+  click: () => playTone(800, 0.05, "square", 0.12),
+  hover: () => playTone(600, 0.03, "sine", 0.08),
   score: () => {
     playTone(523, 0.1, "sine", 0.25);
     setTimeout(() => playTone(659, 0.1, "sine", 0.25), 50);
@@ -91,7 +92,7 @@ const SOUNDS = {
     const ctx = getAudioContext();
     if (!ctx || !soundEnabled) return;
     if (ctx.state === "suspended") ctx.resume();
-    
+
     const oscillator = ctx.createOscillator();
     const gainNode = ctx.createGain();
     oscillator.connect(gainNode);
@@ -116,7 +117,7 @@ const SOUNDS = {
     const ctx = getAudioContext();
     if (!ctx || !soundEnabled) return;
     if (ctx.state === "suspended") ctx.resume();
-    
+
     const oscillator = ctx.createOscillator();
     const gainNode = ctx.createGain();
     oscillator.connect(gainNode);
@@ -128,6 +129,11 @@ const SOUNDS = {
     gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
     oscillator.start(ctx.currentTime);
     oscillator.stop(ctx.currentTime + 0.08);
+  },
+  powerup: () => {
+    playTone(440, 0.08, "square", 0.2);
+    setTimeout(() => playTone(554, 0.08, "square", 0.2), 60);
+    setTimeout(() => playTone(659, 0.12, "square", 0.2), 120);
   },
 } as const;
 

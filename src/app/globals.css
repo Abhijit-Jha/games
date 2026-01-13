@@ -1,50 +1,79 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafafa;
-  --foreground: #0a0a0a;
-  --card: #ffffff;
-  --card-foreground: #0a0a0a;
-  --primary: #0a0a0a;
-  --primary-foreground: #fafafa;
-  --secondary: #f4f4f5;
-  --secondary-foreground: #18181b;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --accent: #f4f4f5;
-  --accent-foreground: #18181b;
-  --destructive: #ef4444;
-  --destructive-foreground: #fafafa;
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-  --ring: #0a0a0a;
-  --radius: 0.5rem;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  /* Arcade Dark Theme - Default */
+  --background: #0a0514;
+  --background-secondary: #12091f;
+  --foreground: #f0f0ff;
+  --card: #1a0f2e;
+  --card-foreground: #f0f0ff;
+  --primary: #00ff88;
+  --primary-foreground: #0a0514;
+  --primary-glow: #00ff8844;
+  --secondary: #ff00ff;
+  --secondary-foreground: #f0f0ff;
+  --secondary-glow: #ff00ff44;
+  --accent: #00d9ff;
+  --accent-foreground: #0a0514;
+  --accent-glow: #00d9ff44;
+  --muted: #1f1533;
+  --muted-foreground: #a199b8;
+  --destructive: #ff2d55;
+  --destructive-foreground: #f0f0ff;
+  --border: #2d1f4a;
+  --border-bright: #4a3366;
+  --input: #1f1533;
+  --ring: #00ff88;
+  --radius: 0.75rem;
+
+  /* Arcade Neon Colors */
+  --neon-cyan: #00ffff;
+  --neon-magenta: #ff00ff;
+  --neon-yellow: #ffff00;
+  --neon-green: #00ff88;
+  --neon-blue: #00d9ff;
+  --neon-pink: #ff10f0;
+  --neon-orange: #ff6b00;
+
+  /* Shadows & Glows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow: 0 2px 8px 0 rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 12px 0 rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 8px 24px 0 rgb(0 0 0 / 0.6);
+  --shadow-neon: 0 0 20px var(--primary-glow), 0 0 40px var(--primary-glow);
+  --shadow-neon-pink: 0 0 20px var(--secondary-glow), 0 0 40px var(--secondary-glow);
+  --shadow-neon-blue: 0 0 20px var(--accent-glow), 0 0 40px var(--accent-glow);
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+  --font-display: "Inter", system-ui, sans-serif;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --card: #18181b;
-  --card-foreground: #fafafa;
-  --primary: #fafafa;
-  --primary-foreground: #0a0a0a;
-  --secondary: #27272a;
-  --secondary-foreground: #fafafa;
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
-  --accent: #27272a;
-  --accent-foreground: #fafafa;
-  --destructive: #dc2626;
-  --destructive-foreground: #fafafa;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #fafafa;
+  /* Keep same arcade theme for consistency */
+  --background: #0a0514;
+  --background-secondary: #12091f;
+  --foreground: #f0f0ff;
+  --card: #1a0f2e;
+  --card-foreground: #f0f0ff;
+  --primary: #00ff88;
+  --primary-foreground: #0a0514;
+  --primary-glow: #00ff8844;
+  --secondary: #ff00ff;
+  --secondary-foreground: #f0f0ff;
+  --secondary-glow: #ff00ff44;
+  --accent: #00d9ff;
+  --accent-foreground: #0a0514;
+  --accent-glow: #00d9ff44;
+  --muted: #1f1533;
+  --muted-foreground: #a199b8;
+  --destructive: #ff2d55;
+  --destructive-foreground: #f0f0ff;
+  --border: #2d1f4a;
+  --border-bright: #4a3366;
+  --input: #1f1533;
+  --ring: #00ff88;
 }
 
 @theme inline {
@@ -78,16 +107,122 @@
 
 body {
   background-color: var(--background);
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(0, 217, 255, 0.02) 0%, transparent 50%);
   color: var(--foreground);
   font-family: var(--font-sans);
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-bright);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* Neon Text Utilities */
+.text-neon-glow {
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+}
+
+.text-neon-green {
+  color: var(--neon-green);
+  text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
+}
+
+.text-neon-pink {
+  color: var(--neon-magenta);
+  text-shadow: 0 0 10px var(--secondary-glow), 0 0 20px var(--secondary-glow);
+}
+
+.text-neon-blue {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
+}
+
+/* Glowing Border Animation */
+@keyframes border-glow {
+  0%, 100% {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
+  }
+  50% {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
+  }
+}
+
+.animate-border-glow {
+  animation: border-glow 2s ease-in-out infinite;
+}
+
+/* Pulse Glow Animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--primary-glow), 0 0 40px var(--primary-glow);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--primary-glow), 0 0 60px var(--primary-glow);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Grid Background */
+.grid-background {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center;
+}
+
+/* Scan Line Effect */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.scanline-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(transparent, rgba(0, 255, 136, 0.3), transparent);
+  animation: scanline 3s linear infinite;
+  pointer-events: none;
 }
 
 @font-face {
   font-family: "Inter";
-  src: url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+  src: url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 }
 
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
+  src: url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 }
