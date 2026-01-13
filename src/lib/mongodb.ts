@@ -20,7 +20,7 @@ export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db
   return { client, db };
 }
 
-export type GameId = "snake" | "flappy" | "typing" | "reaction" | "trex" | "quickmath";
+export type GameId = "snake" | "flappy" | "typing" | "reaction" | "trex";
 
 export interface Score {
   _id?: string;

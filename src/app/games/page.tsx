@@ -26,11 +26,6 @@ const GAMES = [
     name: "T-Rex Runner",
     description: "Endless runner with increasing speed. Jump over obstacles.",
   },
-  {
-    id: "quickmath" as const,
-    name: "QuickMath Rush",
-    description: "Fast-paced mental math game. Solve timed arithmetic questions with increasing difficulty.",
-  },
 ];
 
 export default function GamesPage() {
