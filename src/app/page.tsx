@@ -34,11 +34,6 @@ const GAMES: { id: GameId; name: string; description: string }[] = [
     name: "T-Rex Runner",
     description: "Endless runner with increasing speed. Jump over obstacles.",
   },
-  {
-    id: "quickmath",
-    name: "QuickMath Rush",
-    description: "Fast-paced mental math. Solve timed arithmetic questions with increasing difficulty.",
-  },
 ];
 
 export default function HomePage() {
